@@ -1,0 +1,18 @@
+version: "3"
+services:
+  nginx:
+    container_name: nginx
+    restart: always
+    build: ./test-nginx/.
+    ports:
+      - "80:80"
+    depends_on:
+      - gunicorn
+  gunicorn:
+    container_name: gunicorn
+    restart: always
+    build: ./test-django/.
+    ports:
+      - "8000:8000"
+    expose:
+      - "8000"
