@@ -1,4 +1,9 @@
 # dir
-
 .static_root/
 venv/
+__pycache__/
+buid/
+
+# file
+db.sqlite3
+.secret
