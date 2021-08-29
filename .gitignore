@@ -7,3 +7,4 @@ buid/
 # file
 db.sqlite3
 .secret
+.DS_Store
