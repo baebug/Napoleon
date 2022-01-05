@@ -24,6 +24,10 @@ print(idx)
 
 - 이런 식으로 `while` 을 사용해서 구현했는데, 괜찮은 방법인 것 같다.
 
+</br>
+</br>
+---
+
 ## 4일
 
 ---
@@ -75,3 +79,107 @@ for _ in range(t):
 - GUI 프로그래밍에 필요한 다양한 컴포넌트를 제공해주는 도구
 	- 웹을 벗어난 GUI 프로그래밍은 거의 처음이라 신기하다.
 - ['자바킹'님 블로그 - LayoutManager](https://m.blog.naver.com/javaking75/140157948347)
+
+</br>
+</br>
+---
+
+## 5일
+
+---
+
+### - 알고리즘
+
+- 수학적인 사고력을 요하는 문제에서는 구현부터 들어가지 말고 좀 더 차근차근 생각해보는 게 좋을 듯.. 결국 다시 풀게 되더라.
+- 구현 자체의 어려움은 없고, 결국 논리적으로 해결법을 떠올리느냐의 문제라 오늘은 딱히 적을 게 없다.
+
+### - awt
+
+- MENU Component
+- LayoutManager
+- Event Handling
+    - Event Source, Event Listener, Event Handler
+- applet: `Deprecated`
+
+### - Singleton pattern
+
+- 첨에 AppConfig 인스턴스 만들어서 memberService 객체를 호출했는데, 그러면 부를 때마다 객체를 새로 생성하고, 소멸시키느라 메모리가 낭비된다.
+```java
+AppConfig appConfig = new AppConfig();
+
+/* 둘이 다른 객체임 */
+MemberService memberService1 = appConfig.memberService();
+MemberService memberService2 = appConfig.memberService();
+```
+- 그래서 사용하는 디자인이 싱글톤 패턴이다.
+    - 클래스의 인스턴스가 딱 1개만 생성되는 것을 보장.
+    - static 영역에 객체 인스턴스를 미리 하나 올려두고 공유해서 사용한다.
+```java
+public class SingletonService {
+    /* static 영역에 객체를 딱 1개만 생성해둔다. */
+    private static final SingletonService instance = new SingletonService();
+
+    /* 객체의 인스턴스가 필요하면 이 static 메서드를 통해서만 조회가 가능하다. (public) */
+    public static SingletonService getInstance() {
+        return instance;
+    }
+
+    /* private 생성자를 통해 외부에서 new 키워드로 객체 생성을 못하게 막는다. */
+    private SingletonService() { }
+
+    public void logic() {
+        System.out.println("싱글톤 객체 로직 호출");
+    }
+}
+```
+- 구현하는 코드 자체도 복잡할뿐더러, 여러 가지 문제점이 있다.
+    - 클라이언트가 `SingletonService` 라는 구체 클래스에 의존하기 때문에 DIP를 위반하며, OCP 원칙도 위반할 가능성이 높다.
+    - 유연성이 낮아 내부 속성을 변경하거나 초기화하기 어렵고, 테스트 또한 어렵다.
+    - private 생성자때문에 자식 클래스를 만들기 어렵다.
+    - 안티 패턴으로 불리기도 한다. (많이 사용되지만 비생산/비효율적인 코드를 일컫는 말)
+
+### - Singleton Container
+
+- 이전에 학습한 스프링 빈이 바로 싱글톤으로 관리되는 빈이다.
+- 객체 인스턴스를 1개로 관리할 뿐만 아니라, 위에서 상술한 문제점을 모두 보완하였다.
+```java
+ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
+
+/* 둘이 같은 객체임 */
+MemberService memberService1 = ac.getBean("memberService", MemberService.class);
+MemberService memberService2 = ac.getBean("memberService", MemberService.class);
+```
+- **(진짜 중요)** 같은 객체 인스턴스를 공유하기 때문에 `stateful` 하게 설계하면 안된다! 
+```java
+// stateful
+public class statefulService {
+    private int price;
+
+    public void order(String name, int price) {
+        System.out.println("name = " + name + ", price = " + price);
+        this.price = price;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+}
+
+// stateless
+public class statelessService {
+    public int order(String name, int price) {
+        System.out.println("name = " + name + ", price = " + price);
+        return price;
+    }
+}
+```
+
+</br>
+</br>
+---
+
+## 6일
+
+---
+
+### - 알고리즘
