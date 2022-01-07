@@ -178,8 +178,61 @@ public class statelessService {
 </br>
 ---
 
-## 6일
+## 6일 ~ 7일
 
 ---
 
 ### - 알고리즘
+
+- 소수 판별의 경우, `에라토스테네스의 체` 등 이론적인 내용은 다 알고 있었는데 실제로 구현을 안해봐서 많이 헤매고, 시간 초과가 발생했다.
+- 핵심 개념 1 : 어떤 수 n 이 주어졌을 때, n 의 제곱근 보다 작은 수로 안나누어지면 n 은 소수이다.
+```python
+# 중요 포인트 1
+# 에라토스테네스의 체 만드는 법
+
+max_n = 10000 # 최대로 주어지는 자연수
+eratos = [False, False] + [True for _ in range(max_n - 1)]  # index 가 0 부터 max_n 까지 생긴다.
+
+for i in range(2, int(max_n ** 0.5) + 1):                   # 핵심 개념 1
+    if eratos[i]:
+        for j in range(i * 2, max_n + 1, i):
+            eratos[j] = False
+
+# index 가 소수인 경우에만, eratos[index] = True 이다.
+```
+
+- 소인수분해의 경우 2 부터 나누면서 올라가기 때문에, div 가 소수인지 따로 확인할 필요가 없다. (이미 다 쪼개짐)
+```python
+def solve(n):
+    d = 2
+    while d * d <= n:                   # 핵심 개념 1
+        if n % d == 0:
+            print(d)
+            n //= d
+        else:
+            d += 2 if d > 2 else 1      # 짝수인 소수는 2 뿐이다.
+    if n > 1:
+        print(n)
+```
+
+- 위 소인수분해 코드에서 안나눠지는 경우를 찾으면 소수판별이 가능하다.
+```python
+def isPrime(n):
+    if n == 1: return False
+    
+    d = 2
+    while d * d <= n:
+        if n % d == 0:
+            return False
+        else:
+            d += 2 if d > 2 else 1
+    return True
+```
+
+</br>
+</br>
+---
+
+## 8일
+
+---
