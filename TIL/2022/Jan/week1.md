@@ -1,5 +1,3 @@
-# 1월 1주 차
-
 ## 3일
 
 ---
@@ -25,7 +23,7 @@ print(idx)
 - 이런 식으로 `while` 을 사용해서 구현했는데, 괜찮은 방법인 것 같다.
 
 </br>
-</br>
+
 ---
 
 ## 4일
@@ -35,6 +33,7 @@ print(idx)
 ### - 알고리즘
 
 - 몫과 나머지를 사용할 때, 나누어 떨어지는 경우에 대해서 유의해야 함.
+
 ```python
 # Q. 10250
 
@@ -45,13 +44,17 @@ else:
 	h = N % H
 	w = N // H + 1
 ```
+
 - 시, 분, 초 처럼 한 자릿수 일 때, 두 자리로 포매팅
+
 ```python
 # w1 은 정수 데이터지만, w2는 문자열로 반환된다.
 
 w2 = '{0:02d}'.format(w1)
 ```
+
 - 재귀적으로 알고리즘을 풀어야 할 때(ex. 피보나치), array 에 저장해서 효율을 높일 수 있다.
+
 ```python
 # Q. 2775
 # 전역 변수로 array 를 선언하고, 함수에서 접근하여 저장한다.
@@ -81,7 +84,7 @@ for _ in range(t):
 - ['자바킹'님 블로그 - LayoutManager](https://m.blog.naver.com/javaking75/140157948347)
 
 </br>
-</br>
+
 ---
 
 ## 5일
@@ -104,6 +107,7 @@ for _ in range(t):
 ### - Singleton pattern
 
 - 첨에 AppConfig 인스턴스 만들어서 memberService 객체를 호출했는데, 그러면 부를 때마다 객체를 새로 생성하고, 소멸시키느라 메모리가 낭비된다.
+
 ```java
 AppConfig appConfig = new AppConfig();
 
@@ -111,9 +115,11 @@ AppConfig appConfig = new AppConfig();
 MemberService memberService1 = appConfig.memberService();
 MemberService memberService2 = appConfig.memberService();
 ```
+
 - 그래서 사용하는 디자인이 싱글톤 패턴이다.
     - 클래스의 인스턴스가 딱 1개만 생성되는 것을 보장.
     - static 영역에 객체 인스턴스를 미리 하나 올려두고 공유해서 사용한다.
+
 ```java
 public class SingletonService {
     /* static 영역에 객체를 딱 1개만 생성해둔다. */
@@ -132,6 +138,7 @@ public class SingletonService {
     }
 }
 ```
+
 - 구현하는 코드 자체도 복잡할뿐더러, 여러 가지 문제점이 있다.
     - 클라이언트가 `SingletonService` 라는 구체 클래스에 의존하기 때문에 DIP를 위반하며, OCP 원칙도 위반할 가능성이 높다.
     - 유연성이 낮아 내부 속성을 변경하거나 초기화하기 어렵고, 테스트 또한 어렵다.
@@ -142,6 +149,7 @@ public class SingletonService {
 
 - 이전에 학습한 스프링 빈이 바로 싱글톤으로 관리되는 빈이다.
 - 객체 인스턴스를 1개로 관리할 뿐만 아니라, 위에서 상술한 문제점을 모두 보완하였다.
+
 ```java
 ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
 
@@ -149,7 +157,9 @@ ApplicationContext ac = new AnnotationConfigApplicationContext(AppConfig.class);
 MemberService memberService1 = ac.getBean("memberService", MemberService.class);
 MemberService memberService2 = ac.getBean("memberService", MemberService.class);
 ```
+
 - **(진짜 중요)** 같은 객체 인스턴스를 공유하기 때문에 `stateful` 하게 설계하면 안된다! 
+
 ```java
 // stateful
 public class statefulService {
@@ -175,7 +185,7 @@ public class statelessService {
 ```
 
 </br>
-</br>
+
 ---
 
 ## 6일 ~ 7일
@@ -186,6 +196,7 @@ public class statelessService {
 
 - 소수 판별의 경우, `에라토스테네스의 체` 등 이론적인 내용은 다 알고 있었는데 실제로 구현을 안해봐서 많이 헤매고, 시간 초과가 발생했다.
 - 핵심 개념 1 : 어떤 수 n 이 주어졌을 때, n 의 제곱근 보다 작은 수로 안나누어지면 n 은 소수이다.
+
 ```python
 # 중요 포인트 1
 # 에라토스테네스의 체 만드는 법
@@ -202,6 +213,7 @@ for i in range(2, int(max_n ** 0.5) + 1):                   # 핵심 개념 1
 ```
 
 - 소인수분해의 경우 2 부터 나누면서 올라가기 때문에, div 가 소수인지 따로 확인할 필요가 없다. (이미 다 쪼개짐)
+
 ```python
 def solve(n):
     d = 2
@@ -216,6 +228,7 @@ def solve(n):
 ```
 
 - 위 소인수분해 코드에서 안나눠지는 경우를 찾으면 소수판별이 가능하다.
+
 ```python
 def isPrime(n):
     if n == 1: return False
@@ -230,7 +243,7 @@ def isPrime(n):
 ```
 
 </br>
-</br>
+
 ---
 
 ## 8일
@@ -246,6 +259,7 @@ def isPrime(n):
 - 골드바흐의 추측
     - 2 보다 큰 모든 짝수는 두 소수의 합(골드바흐 파티션)으로 나타낼 수 있다.
     - 가능한 파티션이 여러 가지인 경우, 두 소수의 차이가 가장 작은 것을 출력한다.
+
 ```python
 num = int(input())
 
@@ -259,4 +273,24 @@ for i, b in enumerate(eratos[num//2::-1]):
             print(p1, p2)
             break
 ```
+
 - `enumerate( )` 가 안 떠올랐으면 idx 변수로 무식하게 할 뻔 ㅎ;
+
+</br>
+
+---
+
+## 9일
+
+---
+
+### - 알고리즘
+
+- 배열(list)에서 특정 원소를 제거할 때 `array.remove(value)` 를 사용한다.
+- index 를 알고있으면 `del array[index]` 혹은 `array.remove(array[index])` 이런 식으로 지울 수 있다.
+- list 에서는 어지간하면 `in` 을 사용하지 않는다. (크기가 작은 것이 확실하면 괜찮을 듯?, 순차적으로 탐색해서 너무 오래 걸림)
+- 따라서, 중복되는 원소가 없으면 `set` 으로 바꿔서 찾는 방법을 생각하자.
+
+```python
+_data_set = set(data)
+```
