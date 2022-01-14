@@ -95,3 +95,75 @@ if (1, 2, 3) in _dict:      # O , False 가 반환된다.
 
 ---
 
+### - 알고리즘
+
+- 브루트 포스는 무식하게 구현해도 돼서 마음이 편했다.
+- 근데 뒤에서 좀 더 효율적인 방법으로 구현하는 문제가 나오지 않으면, 따로 해봐야 함.
+
+### - 배이괜
+
+일단 twitch 사이트를 끊었다. `$ sudo vi /private/etc/hosts`
+나태한 것도 문제지만, 요즘은 나태함에 대한 위기의식도 잘 안 느껴짐. 이 정돈 아니었는데 쩝..
+코테3 이라도 꾸준히 해서 다행인데 일단 근본적인 원인을 찾고 해결 방안을 모색해야 함.
+
+- 원인
+    - 요즘 공부하던 파트가 너무 이론적으로 파고들면서 직접적으로 구현하는 게 거의 없어짐 -> 노잼
+    - 자낳대랑 \-메\-가 하필 시기가 겹쳐서 너무 재밌게 봄 -> 생활 패턴 무너짐
+- 해결
+    - 트우치 끊기
+    - 한 과목을 끝내려고 너무 그것만 보지 말고 좀 돌려가면서 공부해야 할 듯. 시간대별 or 요일별
+    - 주말 토이프로젝트. **필요성을 느끼며 공부하자.**
+
+</br>
+
+---
+
+## 14일
+
+---
+
+### - 알고리즘
+
+- 카운팅 정렬
+    - 각 수별로 count 해서 `counting_arr` 에 저장하고, 그걸 바탕으로 `output_arr` 를 작성한다.
+    - 백준에 있는 카운팅 정렬 문제는 메모리 및 시간 제한 때문에 `input_arr` , `output_arr` 없이 구현해야 된다.
+    - 그냥 구현했을 때는 약 12000ms 였지만, while 문을 이용해서 1000개 씩 끊어주니 4000ms 로 시간이 줄어들었다.
+    - 메모리와 시간의 적절한 타협이 필요하다. - 경험
+
+```python
+N = int(input())
+arr = [0] * 10001                   # idx 가 0 부터 10000 까지
+
+for _ in range(N):
+    arr[int(input())] += 1          # 들어오는 즉시 count
+
+for i in range(len(arr)):
+    if arr[i]:
+        while arr[i] > 1000:
+            print((str(i) + '\n') * 1000)
+            arr[i] -= 1000
+        print((str(i) + '\n') * arr[i])
+```
+
+- 통계학
+    - 문제의 최빈값에서 개고생했다. (심지어 마지막에 다 구현했는데 계속 안되다가 어느 순간 통과함..)
+    - 최빈값이 두 개 이상일 때, 두 번째로 작은 값을 출력하라는 조건 때문에 더 복잡해졌다.
+    - 최빈값은 `count( )` 로도 구현할 수 있지만, collections 라이브러리의 `Counter` 를 이용하면 더 빠르고 간편하다.
+
+```python
+# count
+tmp = [arr.count(i) for i in arr]
+rest_list = [arr[i] for i, e in enumerate(tmp) if e == max(tmp)]
+result = (sorted(set(rest_list)))
+if len(result) >= 2:
+    return result[1]
+return result[0]
+
+# from collections import Counter
+cnt = Counter(arr)
+mode = cnt.most_common()
+if len(mode) > 1:
+    if mode[0][1] == mode[1][1]:
+        return mode[1][0]
+return mode[0][0]
+```
