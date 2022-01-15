@@ -167,3 +167,58 @@ if len(mode) > 1:
         return mode[1][0]
 return mode[0][0]
 ```
+
+</br>
+
+---
+
+## 15일
+
+---
+
+### - 알고리즘
+
+- 좌표 정렬하기 문제에서 처음 구현한 코드
+    - 좌표의 수 N 을 입력받고 [x, y] 형태로 바꿔서 li 에 append 해줬다.
+    - 그냥 `sort( )` 해봤는데 알아서 우선순위를 가지고 정렬이 되더라.
+    - 다시 for 문으로 순회돌면서 print 해줬다.
+
+```python
+import sys
+
+input = sys.stdin.readline
+
+N = int(input())
+li = []
+
+for i in range(N):
+    li.append(list(map(int, input().split())))
+
+li.sort()
+
+for i in li:
+    print(i[0], i[1])
+```
+
+- 최적화 및 응용(정렬 기준 변경) 구현 코드
+    - 좌표의 수 N 을 입력받고 list comprehension 을 이용해 바로 li 만들어준다. (`strip( )` 을 쓰지 않고 개행문자까지 넣어주는 게 포인트)
+    - `sort( )` 함수에서 `key` 와 `lambda` 를 이용해 특정 기준으로 정렬을 실행한다. (우선순위 높은 기준을 나중에)
+    - li 의 원소에 개행문자가 포함되어있기 때문에 빈칸 없이 join 해준다.
+
+```python
+import sys
+
+input = sys.stdin.readline
+
+N = int(input())
+li = [input() for _ in range(N)]
+
+li.sort(key=lambda x: int(x.split()[1]))
+li.sort(key=lambda x: int(x.split()[0]))
+
+# 이런 방법도 있다.
+# li.sort(key=lambda x: tuple(map(int, x.split())))   # tuple 이 list 보다 빠르다.
+
+# li = ['1 -1\n', '1 2\n', '2 2\n', '3 3\n', '0 4\n']
+print(''.join(li))
+```
