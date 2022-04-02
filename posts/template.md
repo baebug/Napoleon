@@ -1,11 +1,11 @@
 ---
 title: template
 description: template
-date: 2022/03/24
+date: 2022-03-24 22:43:00 +09:00
 categories:
   - foo
 status: To do
-last_modified_at: 2022-03-24 22:43:00
+last_modified_at: 2022-03-24 22:43:00 +09:00
 ---
 
 ## template
