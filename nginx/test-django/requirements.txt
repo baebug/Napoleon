@@ -1,3 +1,0 @@
-Django
-gunicorn
-whitenoise==5.2.0
